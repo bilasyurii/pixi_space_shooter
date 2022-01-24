@@ -1,8 +1,15 @@
-import { Application } from 'pixi.js';
+import Game from "./core/game/game";
+import Gameplay from "./states/gameplay";
+import Preload from "./states/preload";
 
-const app = new Application({
-  width: 100,
-  height: 100,
-});
+class SpaceShooterGame extends Game {
+  _create() {
+    const states = this._states;
+    states.register(Preload);
+    states.register(Gameplay);
+    states.setState(Preload);
+  }
+}
 
-document.body.appendChild(app.view);
+const game = new SpaceShooterGame();
+game.start();
