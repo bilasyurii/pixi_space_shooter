@@ -1,5 +1,6 @@
 import MiniSignal from "mini-signals";
 import Game from "../../core/game/game";
+import Key from "../../core/input/keyboard/key";
 
 export default class SpaceshipInput {
   /**
@@ -10,6 +11,9 @@ export default class SpaceshipInput {
 
     this.onShoot = new MiniSignal();
 
+    this._isKeyboardControls = game.getDevice().desktop;
+    this._moveLeftKeys = [];
+    this._moveRightKeys = [];
     this._isLeftMovementActive = true;
     this._isRightMovementActive = true;
     this._velocityX = 0;
@@ -22,9 +26,7 @@ export default class SpaceshipInput {
   }
 
   _setupEvents() {
-    const game = this.game;
-
-    if (game.getDevice().desktop) {
+    if (this._isKeyboardControls) {
       this._setupKeyboardEvents();
     } else {
       this._setupMobileEvents();
@@ -34,31 +36,34 @@ export default class SpaceshipInput {
   _setupKeyboardEvents() {
     const keyboard = this.game.getInput().getKeyboard();
 
-    const moveLeftActions = [
+    const moveLeftKeys = [
       keyboard.addKey('ArrowLeft'),
       keyboard.addKey('KeyA'),
     ];
 
-    const moveRightActions = [
+    const moveRightKeys = [
       keyboard.addKey('ArrowRight'),
       keyboard.addKey('KeyD'),
     ];
 
-    const shootActions = [
+    const shootKeys = [
       keyboard.addKey('Space'),
     ];
 
-    moveLeftActions.forEach((key) => {
+    this._moveLeftKeys = moveLeftKeys;
+    this._moveRightKeys = moveRightKeys;
+
+    moveLeftKeys.forEach((key) => {
       key.onDown.add(this._onActionLeftStarted, this);
       key.onUp.add(this._onActionLeftEnded, this);
     });
 
-    moveRightActions.forEach((key) => {
+    moveRightKeys.forEach((key) => {
       key.onDown.add(this._onActionRightStarted, this);
       key.onUp.add(this._onActionRightEnded, this);
     });
 
-    shootActions.forEach((key) => {
+    shootKeys.forEach((key) => {
       key.onDown.add(this._onShoot, this);
     });
   }
@@ -73,6 +78,11 @@ export default class SpaceshipInput {
   }
 
   _onActionLeftEnded() {
+    // if input type is keyboard, check if there are alternative keys still down
+    if (this._isKeyboardControls && this._isAnyKeyDown(this._moveLeftKeys)) {
+      return;
+    }
+
     this._isLeftMovementActive = false;
     this._velocityX = (this._isRightMovementActive ? 1 : 0);
   }
@@ -83,11 +93,23 @@ export default class SpaceshipInput {
   }
 
   _onActionRightEnded() {
+    // if input type is keyboard, check if there are alternative keys still down
+    if (this._isKeyboardControls && this._isAnyKeyDown(this._moveRightKeys)) {
+      return;
+    }
+
     this._isRightMovementActive = false;
     this._velocityX = (this._isLeftMovementActive ? -1 : 0);
   }
 
   _onShoot() {
     this.onShoot.dispatch();
+  }
+
+  /**
+   * @param {Key[]} keys 
+   */
+  _isAnyKeyDown(keys) {
+    return keys.some((key) => key.isDown());
   }
 }
