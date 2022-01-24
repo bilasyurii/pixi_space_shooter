@@ -69,4 +69,12 @@ export default class StateManager {
     currentState.onLeft();
     currentState.onEntered();
   }
+
+  update(dt) {
+    const currentState = this._currentState;
+
+    if (currentState) {
+      currentState.update(dt);
+    }
+  }
 }

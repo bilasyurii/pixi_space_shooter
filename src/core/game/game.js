@@ -9,6 +9,7 @@ export default class Game {
     this._app = null;
     this._stage = null;
     this._renderer = null;
+    this._ticker = null;
     this._device = null;
     this._states = null;
     this._screen = null;
@@ -17,6 +18,7 @@ export default class Game {
     this._initApp();
     this._setupStage();
     this._setupRenderer();
+    this._setupTicker();
     this._initDevice();
     this._initStates();
     this._initScreen();
@@ -37,6 +39,10 @@ export default class Game {
 
   getRenderer() {
     return this._renderer;
+  }
+
+  getTicker() {
+    return this._ticker;
   }
 
   getDevice() {
@@ -76,6 +82,12 @@ export default class Game {
     this._renderer = this._app.renderer;
   }
 
+  _setupTicker() {
+    const ticker = this._app.ticker;
+    this._ticker = ticker;
+    ticker.add(this._onUpdate, this);
+  }
+
   _initDevice() {
     this._device = new Device();
   }
@@ -90,5 +102,9 @@ export default class Game {
 
   _initInput() {
     this._input = new Input(this);
+  }
+
+  _onUpdate(dt) {
+    this._states.update(dt);
   }
 }

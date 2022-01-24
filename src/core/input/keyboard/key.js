@@ -10,7 +10,6 @@ export default class Key {
 
     this._code = code;
     this._isDown = false;
-    this._wasPressedThisFrame = false;
   }
 
   isDown() {
@@ -27,17 +26,11 @@ export default class Key {
 
   setDown() {
     this._isDown = true;
-    this._wasPressedThisFrame = true;
     this.onDown.dispatch(this);
   }
 
   setUp() {
     this._isDown = false;
-    this._wasPressedThisFrame = true;
     this.onUp.dispatch(this);
-  }
-
-  update() {
-    this._wasPressedThisFrame = false;
   }
 }

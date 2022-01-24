@@ -28,9 +28,9 @@ export default class GameState {
     Debug.abstractMethod();
   }
 
-  onLeft() {
-    Debug.abstractMethod();
-  }
+  onLeft() { } // may be implemented in derived classes
+
+  update(dt) { } // may be implemented in derived classes
 
   _initRoot() {
     this._root = new Container();

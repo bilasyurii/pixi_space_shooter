@@ -20,7 +20,9 @@ export default class GameplayState extends GameState {
     this._forceResize();
   }
 
-  onLeft() {}
+  update(dt) {
+    this._spaceship.update(dt);
+  }
 
   _initBg() {
     const texture = utils.TextureCache['background'];
@@ -38,7 +40,7 @@ export default class GameplayState extends GameState {
   }
 
   _initSpaceship() {
-    const spaceship = new Spaceship();
+    const spaceship = new Spaceship(this.game);
     this._spaceship = spaceship;
     this._gameContainer.addChild(spaceship);
     spaceship.position.set(CONFIG.Width * 0.5, CONFIG.Height - 100);

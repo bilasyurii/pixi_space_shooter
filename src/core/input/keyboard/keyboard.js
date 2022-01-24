@@ -17,14 +17,12 @@ export default class Keyboard {
     const key = new Key(code);
     lookup[code] = key;
     this._keys.push(key);
+
+    return key;
   }
 
   getKey(code) {
     return this._keys[code];
-  }
-
-  update() {
-    this._keys.forEach((key) => key.update());
   }
 
   _setupEvents() {

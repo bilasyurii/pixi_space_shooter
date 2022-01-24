@@ -14,8 +14,6 @@ export default class PreloadState extends GameState {
     loader.load(() => this._onAssetsLoaded());
   }
 
-  onLeft() { }
-
   _onAssetsLoaded() {
     Debug.info('Assets loaded.');
 
