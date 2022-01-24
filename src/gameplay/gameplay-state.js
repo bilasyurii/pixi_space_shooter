@@ -41,7 +41,7 @@ export default class GameplayState extends GameState {
     const spaceship = new Spaceship();
     this._spaceship = spaceship;
     this._gameContainer.addChild(spaceship);
-    // spaceship.x = -100;
+    spaceship.position.set(CONFIG.Width * 0.5, CONFIG.Height - 100);
   }
 
   _setupEvents() {
