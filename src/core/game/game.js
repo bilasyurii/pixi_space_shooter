@@ -1,20 +1,26 @@
 import { Application } from "pixi.js";
+import Input from "../input/input";
 import ScreenManager from "../screen/screen-manager";
 import StateManager from "../states/state-manager";
+import Device from "../utils/device";
 
 export default class Game {
   constructor() {
     this._app = null;
     this._stage = null;
     this._renderer = null;
+    this._device = null;
     this._states = null;
     this._screen = null;
+    this._input = null;
 
     this._initApp();
     this._setupStage();
     this._setupRenderer();
+    this._initDevice();
     this._initStates();
     this._initScreen();
+    this._initInput();
   }
 
   start() {
@@ -33,12 +39,20 @@ export default class Game {
     return this._renderer;
   }
 
+  getDevice() {
+    return this._device;
+  }
+
   getStates() {
     return this._states;
   }
 
   getScreen() {
     return this._screen;
+  }
+
+  getInput() {
+    return this._input;
   }
 
   _initApp() {
@@ -62,11 +76,19 @@ export default class Game {
     this._renderer = this._app.renderer;
   }
 
+  _initDevice() {
+    this._device = new Device();
+  }
+
   _initStates() {
     this._states = new StateManager(this);
   }
 
   _initScreen() {
     this._screen = new ScreenManager(this);
+  }
+
+  _initInput() {
+    this._input = new Input(this);
   }
 }
