@@ -1,18 +1,15 @@
 import { Application } from "pixi.js";
 import StateManager from "../states/state-manager";
-import Debug from "../utils/debug";
 
 export default class Game {
   constructor() {
-    this._states = null;
     this._app = null;
+    this._stage = null;
+    this._states = null;
 
     this._initApp();
+    this._setupStage();
     this._initStates();
-  }
-
-  start() {
-    this._create();
   }
 
   getStates() {
@@ -23,11 +20,8 @@ export default class Game {
     return this._app;
   }
 
-  /**
-   * @protected
-   */
-  _create() {
-    Debug.abstractMethod();
+  getStage() {
+    return this._stage;
   }
 
   _initApp() {
@@ -40,6 +34,10 @@ export default class Game {
     this._app = app;
 
     document.body.appendChild(app.view);
+  }
+
+  _setupStage() {
+    this._stage = this._app.stage;
   }
 
   _initStates() {

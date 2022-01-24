@@ -1,15 +1,10 @@
 import Game from "./core/game/game";
-import Gameplay from "./states/gameplay";
-import Preload from "./states/preload";
+import GameplayState from "./gameplay/gameplay-state";
+import PreloadState from "./preload/preload-state";
 
-class SpaceShooterGame extends Game {
-  _create() {
-    const states = this._states;
-    states.register(Preload);
-    states.register(Gameplay);
-    states.setState(Preload);
-  }
-}
+const game = new Game();
+const states = game.getStates();
 
-const game = new SpaceShooterGame();
-game.start();
+states.register(PreloadState);
+states.register(GameplayState);
+states.setState(PreloadState);

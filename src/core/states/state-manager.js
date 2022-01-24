@@ -16,8 +16,15 @@ export default class StateManager {
   }
 
   register(stateClass) {
-    const state = new stateClass(this.game);
+    const game = this.game;
+    /**
+     * @type {GameState}
+     */
+    const state = new stateClass(game);
     this._states[stateClass] = state;
+
+    const root = state.getRoot();
+    game.getStage().addChild(root);
   }
 
   getCurrent() {

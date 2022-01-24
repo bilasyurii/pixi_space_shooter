@@ -1,3 +1,4 @@
+import { Container } from "pixi.js";
 import Game from "../game/game";
 import Debug from "../utils/debug";
 
@@ -10,6 +11,17 @@ export default class GameState {
    */
   constructor(game) {
     this.game = game;
+    this._root = null;
+
+    this._initRoot();
+  }
+
+  getRoot() {
+    return this._root;
+  }
+
+  addChild(child) {
+    this._root.addChild(child);
   }
 
   onEntered() {
@@ -18,5 +30,9 @@ export default class GameState {
 
   onLeft() {
     Debug.abstractMethod();
+  }
+
+  _initRoot() {
+    this._root = new Container();
   }
 }
