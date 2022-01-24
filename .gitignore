@@ -351,3 +351,4 @@ MigrationBackup/
 
 # custom ignores
 package-lock.json
+dist/

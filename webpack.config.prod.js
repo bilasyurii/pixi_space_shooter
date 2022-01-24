@@ -13,6 +13,7 @@ module.exports = {
       },
     }],
   },
+  entry: './src/main.js',
   optimization: {
     minimizer: [new UglifyJSPlugin({
       uglifyOptions: {
