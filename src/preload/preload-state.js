@@ -1,4 +1,4 @@
-import { Loader, utils } from "pixi.js";
+import { Loader } from "pixi.js";
 import GameState from "../core/states/game-state";
 import Debug from "../core/utils/debug";
 import GameplayState from "../gameplay/gameplay-state";

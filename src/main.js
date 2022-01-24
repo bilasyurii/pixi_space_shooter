@@ -8,3 +8,5 @@ const states = game.getStates();
 states.register(PreloadState);
 states.register(GameplayState);
 states.setState(PreloadState);
+
+game.start();
