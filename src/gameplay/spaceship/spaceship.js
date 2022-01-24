@@ -1,4 +1,5 @@
 import { Sprite, utils } from "pixi.js";
+import { CONFIG } from "../data/config";
 import SpaceshipInput from "./spaceship-input";
 
 export default class Spaceship extends Sprite {
@@ -20,8 +21,19 @@ export default class Spaceship extends Sprite {
   update(dt) {
     const velocityX = this._input.getVelocityX() * this._speed;
     const movementX = velocityX * dt;
+    const position = this.position;
+    const newX = position.x + movementX;
+    const boundsPadding = 70;
+    const leftBound = boundsPadding;
+    const rightBound = CONFIG.Width - boundsPadding;
 
-    this.position.x += movementX;
+    if (newX < leftBound) {
+      position.x = leftBound;
+    } else if (newX > rightBound) {
+      position.x = rightBound;
+    } else {
+      position.x = newX;
+    }
   }
 
   _initInput() {
