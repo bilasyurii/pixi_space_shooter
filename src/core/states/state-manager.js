@@ -46,11 +46,19 @@ export default class StateManager {
 
     this._currentState = newState;
 
+    const stage = this.game.getStage();
+
     if (currentState) {
       currentState.onLeft();
+
+      const currentRoot = currentState.getRoot();
+      stage.removeChild(currentRoot);
     }
 
     newState.onEntered();
+
+    const newRoot = newState.getRoot();
+    stage.addChild(newRoot);
   }
 
   restart() {
