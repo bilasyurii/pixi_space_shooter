@@ -32,7 +32,7 @@ export default class Asteroid extends Sprite {
   _updatePosition() {
     const basePosition = this._basePosition;
     const angle = (this._angle.getValue(this._angleTime) + 1) * 0.5 * Math2.PI2;
-    const distance = (this._distance.getValue(this._distanceTime) + 1) * 0.5 * CONFIG.AsteroidMovementAmplitude;
+    const distance = this._distance.getValue(this._distanceTime) * CONFIG.AsteroidMovementAmplitude;
 
     this.position.set(
       basePosition.x + Math.cos(angle) * distance,
