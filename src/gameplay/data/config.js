@@ -3,5 +3,10 @@ export const CONFIG = {
   Height: 720,
   AsteroidsCount: 6,
   AsteroidMovementAmplitude: 70,
+  AsteroidRadius: 75,
   BulletRadius: 15,
+  BulletVelocityY: {
+    from: -2,
+    to: -6,
+  },
 };

@@ -14,8 +14,8 @@ export default class SpaceshipInput {
     this._isKeyboardControls = game.getDevice().desktop;
     this._moveLeftKeys = [];
     this._moveRightKeys = [];
-    this._isLeftMovementActive = true;
-    this._isRightMovementActive = true;
+    this._isLeftMovementActive = false;
+    this._isRightMovementActive = false;
     this._velocityX = 0;
 
     this._setupEvents();

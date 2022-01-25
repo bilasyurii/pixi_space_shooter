@@ -1,5 +1,6 @@
 import { Application } from "pixi.js";
 import Input from "../input/input";
+import Physics from "../physics/physics";
 import ScreenManager from "../screen/screen-manager";
 import StateManager from "../states/state-manager";
 import Device from "../utils/device";
@@ -11,6 +12,7 @@ export default class Game {
     this._renderer = null;
     this._ticker = null;
     this._device = null;
+    this._physics = null;
     this._states = null;
     this._screen = null;
     this._input = null;
@@ -20,6 +22,7 @@ export default class Game {
     this._setupRenderer();
     this._setupTicker();
     this._initDevice();
+    this._initPhysics();
     this._initStates();
     this._initScreen();
     this._initInput();
@@ -47,6 +50,10 @@ export default class Game {
 
   getDevice() {
     return this._device;
+  }
+
+  getPhysics() {
+    return this._physics;
   }
 
   getStates() {
@@ -92,6 +99,10 @@ export default class Game {
     this._device = new Device();
   }
 
+  _initPhysics() {
+    this._physics = new Physics();
+  }
+
   _initStates() {
     this._states = new StateManager(this);
   }
@@ -106,5 +117,6 @@ export default class Game {
 
   _onUpdate(dt) {
     this._states.update(dt);
+    this._physics.update();
   }
 }

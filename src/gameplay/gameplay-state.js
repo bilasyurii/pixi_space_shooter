@@ -2,6 +2,7 @@ import { Container, Sprite, utils } from "pixi.js";
 import GameState from "../core/states/game-state";
 import AsteroidsManager from "./asteroid/asteroids-manager";
 import { CONFIG } from "./data/config";
+import { Tags } from "./data/tags";
 import BulletsManager from "./projectiles/bullets-manager";
 import Spaceship from "./spaceship/spaceship";
 
@@ -19,6 +20,7 @@ export default class GameplayState extends GameState {
   onEntered() {
     this._initBg();
     this._initGameContainer();
+    this._setupCollisionTags();
     this._initSpaceship();
     this._initAsteroids();
     this._initBullets();
@@ -29,6 +31,7 @@ export default class GameplayState extends GameState {
   update(dt) {
     this._spaceship.update(dt);
     this._asteroids.update(dt);
+    this._bullets.update(dt);
   }
 
   _initBg() {
@@ -46,6 +49,13 @@ export default class GameplayState extends GameState {
     container.pivot.set(CONFIG.Width * 0.5, CONFIG.Height * 0.5);
   }
 
+  _setupCollisionTags() {
+    const tags = this.game.getPhysics().getTags();
+    tags.registerOne(Tags.Bullet, Tags.Bullet, false);
+    tags.registerOne(Tags.Asteroid, Tags.Asteroid, false);
+    tags.registerBoth(Tags.Bullet, Tags.Asteroid, true);
+  }
+
   _initSpaceship() {
     const spaceship = new Spaceship(this.game);
     this._spaceship = spaceship;
@@ -54,7 +64,7 @@ export default class GameplayState extends GameState {
   }
 
   _initAsteroids() {
-    this._asteroids = new AsteroidsManager(this._gameContainer);
+    this._asteroids = new AsteroidsManager(this.game, this._gameContainer);
   }
 
   _initBullets() {
