@@ -36,6 +36,10 @@ export default class ScreenManager {
     this.onResize.dispatch();
   }
 
+  reset() {
+    this.onResize.detachAll();
+  }
+
   _setupEvents() {
     window.onresize = () => this.updateSize();
   }

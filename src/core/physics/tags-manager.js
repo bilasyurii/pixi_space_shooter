@@ -36,4 +36,8 @@ export default class TagManager {
 
     rules[tagA][tagB] = collide;
   }
+
+  reset() {
+    this._rules = {};
+  }
 }

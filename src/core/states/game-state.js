@@ -28,6 +28,11 @@ export default class GameState {
     this.game.getStates().setState(stateClass, arg);
   }
 
+  clear() {
+    this._root.destroy();
+    this._initRoot();
+  }
+
   onEntered(arg) {
     Debug.abstractMethod();
   }

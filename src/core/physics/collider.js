@@ -13,4 +13,8 @@ export default class Collider {
   onCollision(other) {
     this.onCollided.dispatch(other, this);
   }
+
+  reset() {
+    this.onCollided.detachAll();
+  }
 }

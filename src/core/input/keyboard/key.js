@@ -33,4 +33,9 @@ export default class Key {
       this.onUp.dispatch(this);
     }
   }
+
+  reset() {
+    this.onDown.detachAll();
+    this.onUp.detachAll();
+  }
 }

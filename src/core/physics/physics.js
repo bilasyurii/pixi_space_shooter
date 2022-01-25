@@ -11,6 +11,12 @@ export default class Physics {
     this._tags = new TagManager();
   }
 
+  reset() {
+    this._colliders.forEach((collider) => collider.reset());
+    this._colliders = [];
+    this._tags.reset();
+  }
+
   getTags() {
     return this._tags;
   }

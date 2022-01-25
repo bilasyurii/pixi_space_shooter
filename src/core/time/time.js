@@ -35,6 +35,13 @@ export default class TimeManager {
   }
 
   update(dt) {
-    this._clocks.forEach((clock) => clock.update(dt));
+    this._clocks.slice(0).forEach((clock) => clock.update(dt));
+  }
+
+  reset() {
+    this._clocks.slice(0).forEach((clock) => {
+      clock.onEnded.detachAll();
+      clock.remove();
+    });
   }
 }

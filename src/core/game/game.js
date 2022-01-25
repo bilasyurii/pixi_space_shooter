@@ -35,6 +35,13 @@ export default class Game {
     this._screen.boot();
   }
 
+  reset() {
+    this._time.reset();
+    this._physics.reset();
+    this._screen.reset();
+    this._input.reset();
+  }
+
   getApp() {
     return this._app;
   }

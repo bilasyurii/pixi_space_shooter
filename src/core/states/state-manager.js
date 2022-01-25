@@ -46,13 +46,17 @@ export default class StateManager {
 
     this._currentState = newState;
 
-    const stage = this.game.getStage();
+    const game = this.game;
+    const stage = game.getStage();
 
     if (currentState) {
       currentState.onLeft();
 
       const currentRoot = currentState.getRoot();
       stage.removeChild(currentRoot);
+
+      currentState.clear();
+      game.reset();
     }
 
     const newRoot = newState.getRoot();
@@ -68,6 +72,8 @@ export default class StateManager {
     Debug.assert(currentState, 'Can\'t restart, because there is no active state');
 
     currentState.onLeft();
+    currentState.clear();
+    this.game.reset();
     currentState.onEntered(arg);
     this._forceResize();
   }

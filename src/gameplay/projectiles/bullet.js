@@ -45,6 +45,7 @@ export default class Bullet extends Sprite {
   }
 
   spawn() {
+    this.alpha = 1;
     this._lifeTimer.reset(5, true);
   }
 
@@ -67,6 +68,12 @@ export default class Bullet extends Sprite {
     collider.x += velocity.x * dt;
     collider.y += velocity.y * dt;
     this.position.copyFrom(this._collider);
+
+    const lifeTime = this._lifeTimer.getTimeLeft();
+
+    if (lifeTime < 1) {
+      this.alpha = lifeTime;
+    }
   }
 
   _initCollider() {

@@ -19,6 +19,14 @@ export default class Input {
     return this._keyboard;
   }
 
+  reset() {
+    const keyboard = this._keyboard;
+
+    if (keyboard) {
+      keyboard.reset();
+    }
+  }
+
   _initKeyboard() {
     this._keyboard = new Keyboard();
   }

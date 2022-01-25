@@ -1,9 +1,9 @@
-import Debug from "../../utils/debug";
 import Key from "./key";
 
 export default class Keyboard {
   constructor() {
     this._keysLookup = {};
+    this._listeners = [];
 
     this._setupEvents();
   }
@@ -32,6 +32,16 @@ export default class Keyboard {
    */
   getKey(code) {
     return this._keysLookup[code];
+  }
+
+  reset() {
+    const keys = this._keysLookup;
+
+    for (const key in keys) {
+      keys[key].reset();
+    }
+
+    this._keysLookup = {};
   }
 
   _setupEvents() {
