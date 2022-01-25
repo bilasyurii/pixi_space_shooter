@@ -65,7 +65,7 @@ export default class ResultState extends GameState {
       align: 'center',
       fill: 'white',
       stroke: 'dimgrey',
-      strokeThickness: 10,
+      strokeThickness: 5,
     });
     this._tutorialText = text;
     this.addChild(text);

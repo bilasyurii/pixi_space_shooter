@@ -18,6 +18,7 @@ export default class GameplayState extends GameState {
     this._asteroids = null;
     this._bullets = null;
     this._ui = null;
+    this._clock = null;
   }
 
   onEntered() {
@@ -27,14 +28,17 @@ export default class GameplayState extends GameState {
     this._initSpaceship();
     this._initAsteroids();
     this._initBullets();
+    this._initClock();
     this._initUI();
     this._setupEvents();
+    this._start();
   }
 
   update(dt) {
     this._spaceship.update(dt);
     this._asteroids.update(dt);
     this._bullets.update(dt);
+    this._ui.update();
   }
 
   _initBg() {
@@ -74,8 +78,12 @@ export default class GameplayState extends GameState {
     this._bullets = new BulletsManager(this._gameContainer);
   }
 
+  _initClock() {
+    this._clock = this.game.getTime().createClock(CONFIG.MaxTime);
+  }
+
   _initUI() {
-    const ui = new UI(this.game);
+    const ui = new UI(this.game, this._clock);
     this._ui = ui;
     this.addChild(this._ui);
   }
@@ -85,6 +93,7 @@ export default class GameplayState extends GameState {
     this._spaceship.onShoot.add(this._onSpaceshipShoot, this);
     this._asteroids.onAsteroidDestroyed.add(this._onAsteroidDestroyed, this);
     this._bullets.onBulletDestroyed.add(this._onBulletDestroyed, this);
+    this._clock.onEnded.add(this._onClockEnded, this);
   }
 
   _onScreenResize() {
@@ -123,6 +132,10 @@ export default class GameplayState extends GameState {
     }
   }
 
+  _onClockEnded() {
+    this._lose();
+  }
+
   _win() {
     this.setState(ResultState, {
       isWin: true,
@@ -133,5 +146,9 @@ export default class GameplayState extends GameState {
     this.setState(ResultState, {
       isWin: false,
     });
+  }
+
+  _start() {
+    this._clock.play();
   }
 }

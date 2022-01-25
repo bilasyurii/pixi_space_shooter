@@ -10,4 +10,5 @@ export const CONFIG = {
     from: -2,
     to: -6,
   },
+  MaxTime: 60,
 };

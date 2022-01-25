@@ -18,7 +18,7 @@ export default class Spaceship extends Sprite {
     this.game = game;
     this.onShoot = new MiniSignal();
     this._input = null;
-    this._cooldown = game.getTime().createClock(0.5);
+    this._cooldown = game.getTime().createClock(0.25);
     this._speed = 10;
     this._shootOffset = new Point(0, -100);
     this._ammoLeft = CONFIG.BulletsCount;
