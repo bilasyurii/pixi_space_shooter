@@ -1,3 +1,4 @@
+import MiniSignal from "mini-signals";
 import { Container } from "pixi.js";
 import Game from "../../core/game/game";
 import { CONFIG } from "../../data/config";
@@ -10,10 +11,15 @@ export default class AsteroidsManager {
    */
   constructor(game, container) {
     this.game = game;
+    this.onAsteroidDestroyed = new MiniSignal();
     this._container = container;
     this._asteroids = [];
 
     this._initAsteroids();
+  }
+
+  getCount() {
+    return this._asteroids.length;
   }
 
   update(dt) {
@@ -49,5 +55,7 @@ export default class AsteroidsManager {
 
     const asteroids = this._asteroids;
     asteroids.splice(asteroids.indexOf(asteroid), 1);
+
+    this.onAsteroidDestroyed.dispatch(asteroid);
   }
 }

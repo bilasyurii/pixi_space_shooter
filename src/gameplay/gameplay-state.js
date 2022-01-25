@@ -29,12 +29,6 @@ export default class GameplayState extends GameState {
     this._initBullets();
     this._initUI();
     this._setupEvents();
-
-    setTimeout(() => {
-      this.setState(ResultState, {
-        isWin: true,
-      });
-    }, 1000);
   }
 
   update(dt) {
@@ -89,6 +83,7 @@ export default class GameplayState extends GameState {
   _setupEvents() {
     this.game.getScreen().onResize.add(this._onScreenResize, this);
     this._spaceship.onShoot.add(this._onSpaceshipShoot, this);
+    this._asteroids.onAsteroidDestroyed.add(this._onAsteroidDestroyed, this);
   }
 
   _onScreenResize() {
@@ -113,5 +108,23 @@ export default class GameplayState extends GameState {
   _onSpaceshipShoot(bullet) {
     this._bullets.add(bullet);
     this._ui.onShoot();
+  }
+
+  _onAsteroidDestroyed() {
+    if (this._asteroids.getCount() <= 0) {
+      this._win();
+    }
+  }
+
+  _win() {
+    this.setState(ResultState, {
+      isWin: true,
+    });
+  }
+
+  _lose() {
+    this.setState(ResultState, {
+      isWin: false,
+    });
   }
 }
