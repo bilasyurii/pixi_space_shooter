@@ -6,17 +6,17 @@ import Bullet from "../projectiles/bullet";
 import SpaceshipInput from "./spaceship-input";
 
 export default class Spaceship extends Sprite {
-  constructor(game, bulletsPool) {
+  constructor(game) {
     const texture = utils.TextureCache['spaceship'];
 
     super(texture);
 
     this.game = game;
     this.onShoot = new MiniSignal();
-    this._bulletsPool = bulletsPool;
     this._input = null;
     this._speed = 10;
     this._shootOffset = new Point(0, -100);
+    this._ammoLeft = CONFIG.BulletsCount;
 
     this.anchor.set(0.5);
 
@@ -51,6 +51,12 @@ export default class Spaceship extends Sprite {
   }
 
   _onShoot() {
+    if (this._canShoot() === false) {
+      return;
+    }
+
+    --this._ammoLeft;
+
     const bullet = new Bullet(this.game);
     const position = this.position;
     const shootOffset = this._shootOffset;
@@ -63,5 +69,13 @@ export default class Spaceship extends Sprite {
     bullet.spawn();
 
     this.onShoot.dispatch(bullet);
+  }
+
+  _canShoot() {
+    if (this._ammoLeft <= 0) {
+      return false;
+    }
+
+    return true;
   }
 }
