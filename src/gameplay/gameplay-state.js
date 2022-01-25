@@ -1,5 +1,6 @@
-import { Container, Graphics, Sprite, utils } from "pixi.js";
+import { Container, Sprite, utils } from "pixi.js";
 import GameState from "../core/states/game-state";
+import AsteroidsManager from "./asteroid/asteroids-manager";
 import { CONFIG } from "./data/config";
 import Spaceship from "./spaceship/spaceship";
 
@@ -10,18 +11,21 @@ export default class GameplayState extends GameState {
     this._bg = null;
     this._gameContainer = null;
     this._spaceship = null;
+    this._asteroids = null;
   }
 
   onEntered() {
     this._initBg();
     this._initGameContainer();
     this._initSpaceship();
+    this._initAsteroids();
     this._setupEvents();
     this._forceResize();
   }
 
   update(dt) {
     this._spaceship.update(dt);
+    this._asteroids.update(dt);
   }
 
   _initBg() {
@@ -44,6 +48,10 @@ export default class GameplayState extends GameState {
     this._spaceship = spaceship;
     this._gameContainer.addChild(spaceship);
     spaceship.position.set(CONFIG.Width * 0.5, CONFIG.Height - 100);
+  }
+
+  _initAsteroids() {
+    this._asteroids = new AsteroidsManager(this._gameContainer);
   }
 
   _setupEvents() {
