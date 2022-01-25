@@ -5,6 +5,7 @@ import { CONFIG } from "./data/config";
 import { Tags } from "./data/tags";
 import BulletsManager from "./projectiles/bullets-manager";
 import Spaceship from "./spaceship/spaceship";
+import UI from "./ui/ui";
 
 export default class GameplayState extends GameState {
   constructor(game) {
@@ -15,6 +16,7 @@ export default class GameplayState extends GameState {
     this._spaceship = null;
     this._asteroids = null;
     this._bullets = null;
+    this._ui = null;
   }
 
   onEntered() {
@@ -24,6 +26,7 @@ export default class GameplayState extends GameState {
     this._initSpaceship();
     this._initAsteroids();
     this._initBullets();
+    this._initUI();
     this._setupEvents();
     this._forceResize();
   }
@@ -71,6 +74,12 @@ export default class GameplayState extends GameState {
     this._bullets = new BulletsManager(this._gameContainer);
   }
 
+  _initUI() {
+    const ui = new UI(this.game);
+    this._ui = ui;
+    this.addChild(this._ui);
+  }
+
   _setupEvents() {
     this.game.getScreen().onResize.add(this._onScreenResize, this);
     this._spaceship.onShoot.add(this._onSpaceshipShoot, this);
@@ -101,5 +110,6 @@ export default class GameplayState extends GameState {
 
   _onSpaceshipShoot(bullet) {
     this._bullets.add(bullet);
+    this._ui.onShoot();
   }
 }
