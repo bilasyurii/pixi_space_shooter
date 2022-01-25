@@ -1,5 +1,7 @@
-import { Sprite, utils } from "pixi.js";
+import MiniSignal from "mini-signals";
+import { Point, Sprite, utils } from "pixi.js";
 import { CONFIG } from "../data/config";
+import Bullet from "../projectiles/bullet";
 import SpaceshipInput from "./spaceship-input";
 
 export default class Spaceship extends Sprite {
@@ -9,8 +11,10 @@ export default class Spaceship extends Sprite {
     super(texture);
 
     this.game = game;
+    this.onShoot = new MiniSignal();
     this._input = null;
     this._speed = 10;
+    this._shootOffset = new Point(0, -100);
 
     this.anchor.set(0.5);
 
@@ -45,6 +49,15 @@ export default class Spaceship extends Sprite {
   }
 
   _onShoot() {
-    console.log('shoot');
+    const bullet = new Bullet(this.game);
+    const position = this.position;
+    const shootOffset = this._shootOffset;
+
+    bullet.position.set(
+      position.x + shootOffset.x,
+      position.y + shootOffset.y,
+    );
+
+    this.onShoot.dispatch(bullet);
   }
 }

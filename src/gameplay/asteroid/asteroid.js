@@ -10,8 +10,8 @@ export default class Asteroid extends Sprite {
     super(texture);
 
     this._basePosition = new Point();
-    this._angle = new ValueNoise();
-    this._distance = new ValueNoise();
+    this._angle = new ValueNoise(4);
+    this._distance = new ValueNoise(4);
     this._angleTime = 0;
     this._distanceTime = 0;
 
@@ -24,8 +24,8 @@ export default class Asteroid extends Sprite {
   }
 
   update(dt) {
-    this._angleTime += dt * 0.001;
-    this._distanceTime += dt * 0.003;
+    this._angleTime += dt * 0.0005;
+    this._distanceTime += dt * 0.002;
     this._updatePosition();
   }
 
