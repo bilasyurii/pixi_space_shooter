@@ -31,7 +31,7 @@ export default class StateManager {
     return this._currentState;
   }
 
-  setState(stateClass) {
+  setState(stateClass, arg = undefined) {
     const states = this._states;
     const newState = states[stateClass];
 
@@ -58,17 +58,17 @@ export default class StateManager {
     const newRoot = newState.getRoot();
     stage.addChild(newRoot);
 
-    newState.onEntered();
+    newState.onEntered(arg);
     this._forceResize();
   }
 
-  restart() {
+  restart(arg = undefined) {
     const currentState = this._currentState;
 
     Debug.assert(currentState, 'Can\'t restart, because there is no active state');
 
     currentState.onLeft();
-    currentState.onEntered();
+    currentState.onEntered(arg);
     this._forceResize();
   }
 

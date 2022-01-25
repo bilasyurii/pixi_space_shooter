@@ -31,7 +31,9 @@ export default class GameplayState extends GameState {
     this._setupEvents();
 
     setTimeout(() => {
-      this.setState(ResultState);
+      this.setState(ResultState, {
+        isWin: true,
+      });
     }, 1000);
   }
 

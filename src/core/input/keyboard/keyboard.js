@@ -3,26 +3,35 @@ import Key from "./key";
 
 export default class Keyboard {
   constructor() {
-    this._keys = [];
     this._keysLookup = {};
 
     this._setupEvents();
   }
 
+  /**
+   * @param {string} code
+   * @returns {Key}
+   */
   addKey(code) {
     const lookup = this._keysLookup;
+    let key = lookup[code];
 
-    Debug.assert(!lookup[code], 'Can\'t add the same key to keyboard twice.');
+    if (key) {
+      return key;
+    }
 
-    const key = new Key(code);
+    key = new Key(code);
     lookup[code] = key;
-    this._keys.push(key);
 
     return key;
   }
 
+  /**
+   * @param {string} code
+   * @returns {Key}
+   */
   getKey(code) {
-    return this._keys[code];
+    return this._keysLookup[code];
   }
 
   _setupEvents() {

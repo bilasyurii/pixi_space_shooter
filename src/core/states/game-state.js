@@ -24,11 +24,11 @@ export default class GameState {
     this._root.addChild(child);
   }
 
-  setState(stateClass) {
-    this.game.getStates().setState(stateClass);
+  setState(stateClass, arg = undefined) {
+    this.game.getStates().setState(stateClass, arg);
   }
 
-  onEntered() {
+  onEntered(arg) {
     Debug.abstractMethod();
   }
 

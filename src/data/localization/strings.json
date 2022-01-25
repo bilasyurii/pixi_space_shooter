@@ -8,5 +8,15 @@
     "en": "YOU LOSE",
     "uk": "ТИ ПРОГРАВ",
     "ru": "ТЫ ПРОИГРАЛ"
+  },
+  "retry_tutorial_desktop": {
+    "en": "Press space\nto play again.",
+    "uk": "Натисни пробіл,\nщоб грати знову",
+    "ru": "Нажми пробел,\nчтобы еще раз сыграть"
+  },
+  "retry_tutorial_mobile": {
+    "en": "Tap on the screen\nto play again.",
+    "uk": "Натисни по екрану,\nщоб грати знову",
+    "ru": "Нажми по экрану,\nчтобы еще раз сыграть"
   }
 }
