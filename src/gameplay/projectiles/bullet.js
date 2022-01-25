@@ -3,6 +3,7 @@ import Game from "../../core/game/game";
 import { CONFIG } from "../../data/config";
 import CircleCollider from "../../core/physics/circle-collider";
 import { Tags } from "../../data/tags";
+import MiniSignal from "mini-signals";
 
 export default class Bullet extends Sprite {
   /**
@@ -14,6 +15,8 @@ export default class Bullet extends Sprite {
     super(texture);
 
     this.game = game;
+    this.onLifeTimeEnded = new MiniSignal();
+    this._lifeTimer = game.getTime().createClock();
     this._velocity = new Point(0, 0);
     this._isAlive = true;
     this._collider = null;
@@ -21,6 +24,7 @@ export default class Bullet extends Sprite {
     this.anchor.set(0.5);
 
     this._initCollider();
+    this._setupEvents();
   }
 
   getCollider() {
@@ -40,8 +44,13 @@ export default class Bullet extends Sprite {
     }
   }
 
+  spawn() {
+    this._lifeTimer.reset(5, true);
+  }
+
   kill() {
     if (this._isAlive) {
+      this._lifeTimer.pause();
       this._isAlive = false;
       this.game.getPhysics().removeCollider(this._collider);
       this.destroy();
@@ -66,6 +75,14 @@ export default class Bullet extends Sprite {
     collider.owner = this;
     collider.tag = Tags.Bullet;
     this.game.getPhysics().addCollider(collider);
+  }
+
+  _setupEvents() {
+    this._lifeTimer.onEnded.add(this._onLifeTimeEnded, this);
+  }
+
+  _onLifeTimeEnded() {
+    this.onLifeTimeEnded.dispatch(this);
   }
 
   static _getTexture(game) {

@@ -20,17 +20,17 @@ export default class Key {
     return this._isDown === false;
   }
 
-  wasPressedThisFrame() {
-    return this._wasPressedThisFrame;
-  }
-
   setDown() {
-    this._isDown = true;
-    this.onDown.dispatch(this);
+    if (this._isDown === false) {
+      this._isDown = true;
+      this.onDown.dispatch(this);
+    }
   }
 
   setUp() {
-    this._isDown = false;
-    this.onUp.dispatch(this);
+    if (this._isDown === true) {
+      this._isDown = false;
+      this.onUp.dispatch(this);
+    }
   }
 }

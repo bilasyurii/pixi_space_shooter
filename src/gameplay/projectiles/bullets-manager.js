@@ -17,6 +17,7 @@ export default class BulletsManager {
     this._bullets.push(bullet);
     this._container.addChild(bullet);
     bullet.getCollider().onCollided.add(this._onCollided, this);
+    bullet.onLifeTimeEnded.add(this._onBulletLifeTimeEnded, this);
   }
 
   update(dt) {
@@ -24,10 +25,16 @@ export default class BulletsManager {
   }
 
   _onCollided(_, collider) {
-    const bullet = collider.owner;
-    bullet.kill();
+    this._removeBullet(collider.owner);
+  }
 
+  _onBulletLifeTimeEnded(bullet) {
+    this._removeBullet(bullet);
+  }
+
+  _removeBullet(bullet) {
     const bullets = this._bullets;
     bullets.splice(bullets.indexOf(bullet), 1);
+    bullet.kill();
   }
 }

@@ -60,6 +60,7 @@ export default class Spaceship extends Sprite {
       position.y + shootOffset.y
     );
     bullet.setVelocity(0, Math2.between(CONFIG.BulletVelocityY.from, CONFIG.BulletVelocityY.to));
+    bullet.spawn();
 
     this.onShoot.dispatch(bullet);
   }

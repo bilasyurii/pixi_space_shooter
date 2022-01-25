@@ -3,6 +3,7 @@ import Input from "../input/input";
 import Physics from "../physics/physics";
 import ScreenManager from "../screen/screen-manager";
 import StateManager from "../states/state-manager";
+import TimeManager from "../time/time";
 import Device from "../utils/device";
 
 export default class Game {
@@ -12,6 +13,7 @@ export default class Game {
     this._renderer = null;
     this._ticker = null;
     this._device = null;
+    this._time = null;
     this._physics = null;
     this._states = null;
     this._screen = null;
@@ -22,6 +24,7 @@ export default class Game {
     this._setupRenderer();
     this._setupTicker();
     this._initDevice();
+    this._initTime();
     this._initPhysics();
     this._initStates();
     this._initScreen();
@@ -50,6 +53,10 @@ export default class Game {
 
   getDevice() {
     return this._device;
+  }
+
+  getTime() {
+    return this._time;
   }
 
   getPhysics() {
@@ -99,6 +106,10 @@ export default class Game {
     this._device = new Device();
   }
 
+  _initTime() {
+    this._time = new TimeManager(this);
+  }
+
   _initPhysics() {
     this._physics = new Physics();
   }
@@ -116,6 +127,8 @@ export default class Game {
   }
 
   _onUpdate(dt) {
+    const seconds = this._ticker.deltaMS * 0.001;
+    this._time.update(seconds);
     this._states.update(dt);
     this._physics.update();
   }
