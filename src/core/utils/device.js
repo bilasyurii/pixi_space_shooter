@@ -11,8 +11,10 @@ export default class Device {
     this.windowsPhone = false;
     this.desktop = false;
     this.silk = false;
+    this.language = 'en';
 
     this._checkOS();
+    this._checkLanguage();
   }
 
   // adapted from Phaser 2's Device class: https://github.com/photonstorm/phaser/blob/v2.6.2/src/utils/Device.js
@@ -53,6 +55,30 @@ export default class Device {
 
     if (this.windowsPhone || ((/Windows NT/i.test(ua)) && (/Touch/i.test(ua)))) {
       this.desktop = false;
+    }
+  }
+
+  _checkLanguage() {
+    if (!navigator) {
+      return;
+    }
+
+    let language;
+
+    if (navigator.language) {
+      language = navigator.language;
+    } else if (navigator.languages) {
+      language = navigator.languages[0];
+    } else if (navigator.userLanguage) {
+      language = navigator.userLanguage;
+    } else if (navigator.browserLanguage) {
+      language = navigator.browserLanguage;
+    } else if (navigator.systemLanguage) {
+      language = navigator.systemLanguage;
+    }
+
+    if (language) {
+      this.language = language.toLowerCase();
     }
   }
 }

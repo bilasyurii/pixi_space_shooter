@@ -1,6 +1,6 @@
 import { Container } from "pixi.js";
 import Game from "../../core/game/game";
-import { CONFIG } from "../data/config";
+import { CONFIG } from "../../data/config";
 import Asteroid from "./asteroid";
 
 export default class AsteroidsManager {

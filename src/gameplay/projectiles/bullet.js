@@ -1,8 +1,8 @@
 import { Graphics, Point, Sprite } from "pixi.js";
 import Game from "../../core/game/game";
-import { CONFIG } from "../data/config";
+import { CONFIG } from "../../data/config";
 import CircleCollider from "../../core/physics/circle-collider";
-import { Tags } from "../data/tags";
+import { Tags } from "../../data/tags";
 
 export default class Bullet extends Sprite {
   /**

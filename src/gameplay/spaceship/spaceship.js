@@ -1,7 +1,7 @@
 import MiniSignal from "mini-signals";
 import { Point, Sprite, utils } from "pixi.js";
 import Math2 from "../../core/utils/math2";
-import { CONFIG } from "../data/config";
+import { CONFIG } from "../../data/config";
 import Bullet from "../projectiles/bullet";
 import SpaceshipInput from "./spaceship-input";
 

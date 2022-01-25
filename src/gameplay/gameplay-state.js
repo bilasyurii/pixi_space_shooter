@@ -1,8 +1,9 @@
 import { Container, Sprite, utils } from "pixi.js";
 import GameState from "../core/states/game-state";
+import ResultState from "../result/result-state";
 import AsteroidsManager from "./asteroid/asteroids-manager";
-import { CONFIG } from "./data/config";
-import { Tags } from "./data/tags";
+import { CONFIG } from "../data/config";
+import { Tags } from "../data/tags";
 import BulletsManager from "./projectiles/bullets-manager";
 import Spaceship from "./spaceship/spaceship";
 import UI from "./ui/ui";
@@ -28,7 +29,10 @@ export default class GameplayState extends GameState {
     this._initBullets();
     this._initUI();
     this._setupEvents();
-    this._forceResize();
+
+    setTimeout(() => {
+      this.setState(ResultState);
+    }, 1000);
   }
 
   update(dt) {
@@ -83,10 +87,6 @@ export default class GameplayState extends GameState {
   _setupEvents() {
     this.game.getScreen().onResize.add(this._onScreenResize, this);
     this._spaceship.onShoot.add(this._onSpaceshipShoot, this);
-  }
-
-  _forceResize() {
-    this.game.getScreen().updateSize();
   }
 
   _onScreenResize() {

@@ -24,6 +24,10 @@ export default class GameState {
     this._root.addChild(child);
   }
 
+  setState(stateClass) {
+    this.game.getStates().setState(stateClass);
+  }
+
   onEntered() {
     Debug.abstractMethod();
   }

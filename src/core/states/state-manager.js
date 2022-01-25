@@ -55,10 +55,11 @@ export default class StateManager {
       stage.removeChild(currentRoot);
     }
 
-    newState.onEntered();
-
     const newRoot = newState.getRoot();
     stage.addChild(newRoot);
+
+    newState.onEntered();
+    this._forceResize();
   }
 
   restart() {
@@ -68,6 +69,7 @@ export default class StateManager {
 
     currentState.onLeft();
     currentState.onEntered();
+    this._forceResize();
   }
 
   update(dt) {
@@ -76,5 +78,9 @@ export default class StateManager {
     if (currentState) {
       currentState.update(dt);
     }
+  }
+
+  _forceResize() {
+    this.game.getScreen().updateSize();
   }
 }

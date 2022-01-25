@@ -17,6 +17,6 @@ export default class PreloadState extends GameState {
   _onAssetsLoaded() {
     Debug.info('Assets loaded.');
 
-    this.game.getStates().setState(GameplayState);
+    this.setState(GameplayState);
   }
 }

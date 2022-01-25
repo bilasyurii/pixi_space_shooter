@@ -1,6 +1,6 @@
 import { Container } from "pixi.js";
 import Game from "../../../core/game/game";
-import { CONFIG } from "../../data/config";
+import { CONFIG } from "../../../data/config";
 import ShotIcon from "./shot-icon";
 
 export default class ShotsCounter extends Container {
