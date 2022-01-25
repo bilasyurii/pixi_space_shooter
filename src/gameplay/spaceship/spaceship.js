@@ -29,6 +29,10 @@ export default class Spaceship extends Sprite {
     this._setupEvents();
   }
 
+  getAmmoCount() {
+    return this._ammoLeft;
+  }
+
   update(dt) {
     const velocityX = this._input.getVelocityX() * this._speed;
     const movementX = velocityX * dt;

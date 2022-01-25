@@ -1,3 +1,4 @@
+import MiniSignal from "mini-signals";
 import { Container } from "pixi.js";
 import Bullet from "./bullet";
 
@@ -6,8 +7,13 @@ export default class BulletsManager {
    * @param {Container} container 
    */
   constructor(container) {
+    this.onBulletDestroyed = new MiniSignal();
     this._container = container;
     this._bullets = [];
+  }
+
+  getCount() {
+    return this._bullets.length;
   }
 
   /**
@@ -36,5 +42,7 @@ export default class BulletsManager {
     const bullets = this._bullets;
     bullets.splice(bullets.indexOf(bullet), 1);
     bullet.kill();
+
+    this.onBulletDestroyed.dispatch(bullet);
   }
 }

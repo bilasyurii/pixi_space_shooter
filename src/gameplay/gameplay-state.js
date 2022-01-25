@@ -84,6 +84,7 @@ export default class GameplayState extends GameState {
     this.game.getScreen().onResize.add(this._onScreenResize, this);
     this._spaceship.onShoot.add(this._onSpaceshipShoot, this);
     this._asteroids.onAsteroidDestroyed.add(this._onAsteroidDestroyed, this);
+    this._bullets.onBulletDestroyed.add(this._onBulletDestroyed, this);
   }
 
   _onScreenResize() {
@@ -113,6 +114,12 @@ export default class GameplayState extends GameState {
   _onAsteroidDestroyed() {
     if (this._asteroids.getCount() <= 0) {
       this._win();
+    }
+  }
+
+  _onBulletDestroyed() {
+    if (this._bullets.getCount() <= 0 && this._spaceship.getAmmoCount() <= 0) {
+      this._lose();
     }
   }
 
