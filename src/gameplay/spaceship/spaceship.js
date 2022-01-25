@@ -1,11 +1,15 @@
 import MiniSignal from "mini-signals";
 import { Point, Sprite, utils } from "pixi.js";
+import Game from "../../core/game/game";
 import Math2 from "../../core/utils/math2";
 import { CONFIG } from "../../data/config";
 import Bullet from "../projectiles/bullet";
 import SpaceshipInput from "./spaceship-input";
 
 export default class Spaceship extends Sprite {
+  /**
+   * @param {Game} game
+   */
   constructor(game) {
     const texture = utils.TextureCache['spaceship'];
 
@@ -14,6 +18,7 @@ export default class Spaceship extends Sprite {
     this.game = game;
     this.onShoot = new MiniSignal();
     this._input = null;
+    this._cooldown = game.getTime().createClock(0.5);
     this._speed = 10;
     this._shootOffset = new Point(0, -100);
     this._ammoLeft = CONFIG.BulletsCount;
@@ -56,6 +61,7 @@ export default class Spaceship extends Sprite {
     }
 
     --this._ammoLeft;
+    this._cooldown.restart();
 
     const bullet = new Bullet(this.game);
     const position = this.position;
@@ -76,6 +82,6 @@ export default class Spaceship extends Sprite {
       return false;
     }
 
-    return true;
+    return this._cooldown.isRunning() === false;
   }
 }

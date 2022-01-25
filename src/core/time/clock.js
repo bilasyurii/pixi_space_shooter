@@ -9,6 +9,10 @@ export default class Clock {
     this._running = autoPlay;
   }
 
+  isRunning() {
+    return this._running;
+  }
+
   getTimeLeft() {
     return this._time;
   }
@@ -21,6 +25,11 @@ export default class Clock {
     this._maxTime = time;
     this._time = time;
     this._running = autoPlay;
+  }
+
+  restart() {
+    this._time = this._maxTime;
+    this._running = true;
   }
 
   pause() {
