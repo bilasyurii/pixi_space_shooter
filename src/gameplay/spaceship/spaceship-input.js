@@ -1,16 +1,19 @@
 import MiniSignal from "mini-signals";
 import Game from "../../core/game/game";
 import Key from "../../core/input/keyboard/key";
+import MobileControls from "../ui/mobile-controls/mobile-controls";
 
 export default class SpaceshipInput {
   /**
-   * @param {Game} game 
+   * @param {Game} game
+   * @param {MobileControls} mobileControls
    */
-  constructor(game) {
+  constructor(game, mobileControls) {
     this.game = game;
 
     this.onShoot = new MiniSignal();
 
+    this._mobileControls = mobileControls;
     this._isKeyboardControls = game.getDevice().desktop;
     this._moveLeftKeys = [];
     this._moveRightKeys = [];
@@ -69,7 +72,12 @@ export default class SpaceshipInput {
   }
 
   _setupMobileEvents() {
-    // TODO
+    const mobileControls = this._mobileControls;
+    mobileControls.onMoveLeftDown.add(this._onActionLeftStarted, this);
+    mobileControls.onMoveLeftUp.add(this._onActionLeftEnded, this);
+    mobileControls.onMoveRightDown.add(this._onActionRightStarted, this);
+    mobileControls.onMoveRightUp.add(this._onActionRightEnded, this);
+    mobileControls.onShootDown.add(this._onShoot, this);
   }
 
   _onActionLeftStarted() {

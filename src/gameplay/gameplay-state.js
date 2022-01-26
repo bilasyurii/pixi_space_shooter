@@ -3,7 +3,7 @@ import GameState from "../core/states/game-state";
 import ResultState from "../result/result-state";
 import AsteroidsManager from "./asteroid/asteroids-manager";
 import { CONFIG } from "../data/config";
-import { Tags } from "../data/tags";
+import { Tags } from "../data/tags.enum";
 import BulletsManager from "./projectiles/bullets-manager";
 import Spaceship from "./spaceship/spaceship";
 import UI from "./ui/ui";
@@ -24,12 +24,12 @@ export default class GameplayState extends GameState {
   onEntered() {
     this._initBg();
     this._initGameContainer();
+    this._initClock();
+    this._initUI();
     this._setupCollisionTags();
     this._initSpaceship();
     this._initAsteroids();
     this._initBullets();
-    this._initClock();
-    this._initUI();
     this._setupEvents();
     this._start();
   }
@@ -56,6 +56,16 @@ export default class GameplayState extends GameState {
     container.pivot.set(CONFIG.Width * 0.5, CONFIG.Height * 0.5);
   }
 
+  _initClock() {
+    this._clock = this.game.getTime().createClock(CONFIG.MaxTime);
+  }
+
+  _initUI() {
+    const ui = new UI(this.game, this._clock);
+    this._ui = ui;
+    this.addChild(this._ui);
+  }
+
   _setupCollisionTags() {
     const tags = this.game.getPhysics().getTags();
     tags.registerOne(Tags.Bullet, Tags.Bullet, false);
@@ -64,7 +74,8 @@ export default class GameplayState extends GameState {
   }
 
   _initSpaceship() {
-    const spaceship = new Spaceship(this.game);
+    const mobileControls = this._ui.getMobileControls();
+    const spaceship = new Spaceship(this.game, mobileControls);
     this._spaceship = spaceship;
     this._gameContainer.addChild(spaceship);
     spaceship.position.set(CONFIG.Width * 0.5, CONFIG.Height - 100);
@@ -76,16 +87,6 @@ export default class GameplayState extends GameState {
 
   _initBullets() {
     this._bullets = new BulletsManager(this._gameContainer);
-  }
-
-  _initClock() {
-    this._clock = this.game.getTime().createClock(CONFIG.MaxTime);
-  }
-
-  _initUI() {
-    const ui = new UI(this.game, this._clock);
-    this._ui = ui;
-    this.addChild(this._ui);
   }
 
   _setupEvents() {

@@ -1,6 +1,7 @@
 import { Container } from "pixi.js";
 import Game from "../../core/game/game";
 import Clock from "../../core/time/clock";
+import MobileControls from "./mobile-controls/mobile-controls";
 import ShotsCounter from "./shots-ui/shots-counter";
 import TimerText from "./timer-text";
 
@@ -16,14 +17,24 @@ export default class UI extends Container {
     this._clock = clock;
     this._counter = null;
     this._timerText = null;
+    this._mobileControls = null;
 
     this._initCounter();
     this._initTimerText();
+
+    if (game.getDevice().desktop === false) {
+      this._initMobileControls();
+    }
+
     this._setupEvents();
   }
 
   onShoot() {
     this._counter.onShoot();
+  }
+
+  getMobileControls() {
+    return this._mobileControls;
   }
 
   update() {
@@ -42,6 +53,12 @@ export default class UI extends Container {
     this.addChild(timerText);
   }
 
+  _initMobileControls() {
+    const mobileControls = new MobileControls(this.game);
+    this._mobileControls = mobileControls;
+    this.addChild(mobileControls);
+  }
+
   _setupEvents() {
     this.game.getScreen().onResize.add(this._onScreenResize, this);
   }
@@ -51,7 +68,6 @@ export default class UI extends Container {
     const width = screen.getWidth();
     const height = screen.getHeight();
     const centerX = width * 0.5;
-    const centerY = height * 0.5;
     const isLandscape = width > height;
     const baseMargin = 50;
 
@@ -64,7 +80,7 @@ export default class UI extends Container {
       counter.scale.set(Math.min(1, (width * 0.8) / counter.getWidth()));
       counter.position.set(
         centerX - counter.getWidth() * 0.5,
-        height - counter.getHeight() - baseMargin
+        baseMargin
       );
     }
 
@@ -76,7 +92,7 @@ export default class UI extends Container {
       timerText.position.set(width - baseMargin, baseMargin);
     } else {
       timerText.anchor.set(0.5, 0);
-      timerText.position.set(centerX, baseMargin);
+      timerText.position.set(centerX, baseMargin * 2);
     }
   }
 }

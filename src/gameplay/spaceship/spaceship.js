@@ -4,19 +4,22 @@ import Game from "../../core/game/game";
 import Math2 from "../../core/utils/math2";
 import { CONFIG } from "../../data/config";
 import Bullet from "../projectiles/bullet";
+import MobileControls from "../ui/mobile-controls/mobile-controls";
 import SpaceshipInput from "./spaceship-input";
 
 export default class Spaceship extends Sprite {
   /**
    * @param {Game} game
+   * @param {MobileControls} mobileControls
    */
-  constructor(game) {
+  constructor(game, mobileControls) {
     const texture = utils.TextureCache['spaceship'];
 
     super(texture);
 
     this.game = game;
     this.onShoot = new MiniSignal();
+    this._mobileControls = mobileControls;
     this._input = null;
     this._cooldown = game.getTime().createClock(0.25);
     this._speed = 10;
@@ -52,7 +55,7 @@ export default class Spaceship extends Sprite {
   }
 
   _initInput() {
-    this._input = new SpaceshipInput(this.game)
+    this._input = new SpaceshipInput(this.game, this._mobileControls)
   }
 
   _setupEvents() {
